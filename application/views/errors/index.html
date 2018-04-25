@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>403 Forbidden</title>
+</head>
+<body>
+	if ($this->input->post('submit',TRUE) == 'Submit'){
+		//validasi
+		$this->form_validation->set_rules('nama_brg','Nama Barang','required|min_length[4]');
+		$this->form_validation->set_rules('harga','Harga','required|numeric');
+		$this->form_validation->set_rules('kondisi','Kondisi','required|min_length');
+		$this->form_validation->set_rules('status','Status','required|numeric');
+		$this->form_validation->set_rules('jmlh_stok','Jumlah Stok','required|numeric');
+		$this->form_validation->set_rules('ktrngn','Keterangan','required|min_length[4]');
+
+		if($this->form_validation->run()== TRUE)
+		{
+			$brg = array(
+				'nama_brg' => $this->input->post('nama_brg', TRUE),
+				'harga' => $this->input->post('harga', TRUE),
+				'kondisi' => $this->input->post('kondisi', TRUE),
+				'status' => $this->input->post('status', TRUE),
+				'jmlh_stok' => $this->input->post('jmlh_stok', TRUE),
+				'ktrngn' => $this->input->post('keterangan', TRUE)
+
+			);
+		}
+	}
+	$data['nama_brg'] = $this->input->post('nama_brg', TRUE);
+	$data['harga'] = $this->input->post('harga',TRUE);
+	$data['kondisi'] = $this->input->post('kondisi',TRUE);
+	$data['status'] = $this->input->post('ketersediaan',TRUE);
+	$data['jmlh_stok'] = $this->input->post('jmlh_stok',TRUE);
+	$data['ktrngn'] = $this->input->post('keterangan',TRUE);
+
+	<div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Gambar Barang
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <?php
+                          if(isset($gbr_brg)){
+                            echo '<input type="hidden" name="old_pict" value="'.$gbr_brg.'">';
+                            echo '<img src="'.base_url().'assets/unggah/'.$gbr_brg.'" width="30%">';
+                          }
+                          ?>
+                          <div class="clear-fix"></div>
+                          <br/>
+                          <input type="file" class="form-control col-md-1 col-xs-12" name="gambar">
+                      </div>
+                    </div>
+<p>Directory access is forbidden.</p>
+
+</body>
+</html>
+
+
+
+
+
+

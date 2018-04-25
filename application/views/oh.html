@@ -1,0 +1,70 @@
+oh oh okay. i will make it
+Array ( [show] => Array ( [0] => Array ( [product_id] => 8 [product_name] => gfdsdfgh [images] => 15400342_258695011214810_1240948716449811711_n.jpg,15400425_384280551914877_3607‌​106669179553345_n.jpg ) ) )
+this came when i did print_r($data)
+In this function
+public function view($id) 
+{ 
+#code 
+// $id=$this->uri->segment(3); 
+// $data['id']=$this->product_model->get_product($id); 
+$data['show']=$this->product_model->get_product_by_id($id); 
+if(empty($data['show'])) 
+{ 
+show_404(); 
+} 
+
+print_r($data); 
+exit(); 
+$this->load->view('products/view',$data); 
+
+
+}
+and I tried like this to get this array values: 
+<tr> 
+<td><?php echo $show['product_id']; ?></td> 
+<td><?php echo $show['product_name']; ?></td> 
+</tr> 
+</tbody> 
+</table> 
+<?php 
+// explode images into a variable 
+$images=explode(',',$show['images']); 
+//print_r($images); 
+//exit(); 
+?> 
+<?php foreach($images as $key=>$val){ ?> 
+<?php //echo ($val);?> 
+<div class="container"> 
+<img src="<?php echo base_url('uploads/images/').$val;?>" /> 
+
+</div> 
+<?php } ?>
+
+
+
+
+
+In model return just query like: 
+$this->db->select("products.*, GROUP_CONCAT(images.images) as images", false); 
+$this->db->from('products'); 
+$this->db->join('images', 'images.product_id=products.id', 'left'); 
+if($id) 
+{ 
+$this->db->where('products.id', $id); 
+} 
+$this->db->group_by('products.product_id'); 
+$query=$this->db->get(); 
+return $query;
+
+and In controller you can handle like this: 
+
+public function view($id) 
+{ 
+$data['show']=$this->product_model->get_product_by_id($id)->row_array(); 
+if(empty($data['show'])) 
+{ 
+show_404(); 
+} 
+$this->load->view('products/view',$data); 
+
+}
